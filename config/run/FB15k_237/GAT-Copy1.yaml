@@ -1,0 +1,64 @@
+# @package _global_
+
+dataset: FB15k_237
+
+# 450dim设置
+epoch: 2000
+batch_size: 1024  # 512差别不大
+learning_rate: 5e-4
+h_dim: 450
+label_smooth: 0.1  # 0.05 和 0.15 差别不大
+#save_emb: False
+
+# graph
+#graph: ksg  # kg, ksg, both
+#use_gnn: True
+
+# ksg
+gnn: GPRGNN  # SGAT, GCN, GAT, GraphSAGE, GPRGNN, FAGCN
+n_layer: 2
+max_sim_set: 20
+filter_rate: 0.7
+ent_drop: 0.3
+bn: False  # 对fb没用
+act: True
+k_selectfunc: 30
+max_selectkg: 10
+
+# kg
+#kg_layer: 1
+#kg_size: 99999
+#rm_rate: 0  # 0.5基本是最好的了
+#ent_drop: 0.3
+#rel_drop: 0.1
+#comp_op: mul   # add/mul
+#bn: False  # 对fb没用
+#pred_rel_w: False  # 对fb没用
+#kg_act: False
+
+# ConvE
+k_h: 15  # kernel size
+k_w: 30
+conv_drop: 0.3
+ent_drop_pred: 0.3
+fc_drop: 0.5
+ker_sz: 8  # 基本是最好的了
+out_channel: 200  # 似乎不能太大, 因为ent数量不多, channel太多的话容易过拟合
+
+# GPRGNN
+Init: PPR # choices=['SGC', 'PPR', 'NPPR', 'Random', 'WS', 'Null']
+Gamma: None
+inner_k: 10
+ppnp: GPR_prop
+alpha: 0.1
+dprate: 0.5
+dropout: 0.5
+
+# FAGCN
+eps: 0.3
+layer_num: 2
+
+# nohup python code/run.py device=0 kg_layer=1 kg_act=False >fb_log/7 2>&1 &
+# nohup python code/run.py device=1 kg_layer=1 kg_act=True >fb_log/8 2>&1 &
+# nohup python code/run.py device=2 kg_layer=2 kg_act=False >fb_log/9 2>&1 &
+# nohup python code/run.py device=3 kg_layer=2 kg_act=True >fb_log/10 2>&1 &

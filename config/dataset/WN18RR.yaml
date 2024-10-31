@@ -1,0 +1,54 @@
+# @package _global_
+
+dataset: WN18RR
+
+# 训练设置
+epoch: 400
+batch_size: 256
+learning_rate: 1.5e-3
+h_dim: 200
+ent_dim: 200
+rel_dim: 200
+pred_rel_w: True
+label_smooth: 0.1  # [0.05, 0.1, 0.15]
+k_selectfunc: 5
+max_selectkg: 1
+
+# graph
+gnn: GPRGNN  # SGAT, GCN, GAT, GraphSAGE, GPRGNN, FAGCN
+n_layer: 2
+max_sim_set: 20
+filter_rate: 0.3
+ablation: None  # None, rel, ent, comp, rel_ent, rel_comp, ent_comp
+kg_layer: 1
+kg_size: 99999
+rm_rate: 0.5
+ent_drop: 0.2  # [0.2, 0.3, 0.5]
+rel_drop: 0  # [0.2, 0.3, 0.5]
+comp_op: mul   # add/mul/concat/corr
+bn: True
+act: True
+
+# ConvE
+k_h: 10
+k_w: 20
+ent_drop_pred: 0.3
+conv_drop: 0.1   # [0.1, 0.3, 0.5]
+fc_drop: 0.4     # [0.1, 0.3, 0.5]
+ker_sz: 7  # [3, 5, 10]
+out_channel: 250
+
+# GPRGNN
+Init: PPR # choices=['SGC', 'PPR', 'NPPR', 'Random', 'WS', 'Null']
+Gamma: None
+inner_k: 10
+ppnp: GPR_prop
+alpha: 0.1
+dprate: 0.5
+dropout: 0.5
+
+# FAGCN
+eps: 1
+layer_num: 2
+# 0.485 gcn sgat
+# 相似图 query answer 少

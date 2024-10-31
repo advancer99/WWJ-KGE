@@ -1,0 +1,25 @@
+defaults:
+  - run: FB15k_237/GCN # FB15k_237/GPR
+  - _self_
+
+dataset_list: [FB15k_237, WN18RR]
+
+device: 0 # 0  # cpu/0/1
+max_no_improve: 50  # 长时间效果未提升就提前结束训练, 0.2*total_epoch_num
+cpu_worker_num: 10  # 在数据加载时使用多少线程
+warmup_epoch: 5
+
+# 项目的根目录
+project_dir: /data/liuyu/project/zlx # /home/zlx #/data/liren/zlx/ #/home/lirenn/zlx/ksg_gnn #/data/liren/zlx/
+# 原始数据集的存放目录
+data_path: ${project_dir}/data
+# 模型的工作目录, 以dataset-model为组织单元, 该目录会保存模型的中间数据.
+working_dir: ${project_dir}/outputs/${dataset}
+
+# 程序每次运行的工作目录, 以运行时间来区分, 该目录会保存每次的运行结果
+hydra:
+  run:
+    dir: ${working_dir}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: ${working_dir}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.override_dirname}
